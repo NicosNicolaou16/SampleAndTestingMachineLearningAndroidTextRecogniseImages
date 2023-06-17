@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.ImageFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ElevatedButton
@@ -30,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -58,19 +57,20 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainProcess(context: Context, modifier: Modifier = Modifier) {
-        val uriValue = remember {
-            mutableStateOf(Uri.EMPTY)
-        }
+        val uriValue = remember { mutableStateOf(Uri.EMPTY) }
         val openDialog = remember { mutableStateOf(false) }
+        val displayValue = remember { mutableStateOf("") }
+        if (openDialog.value) AlertDialog(displayValue.value, openDialog)
         val galleryLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                 if (uri != null) {
                     uriValue.value = uri
                 }
             }
-        val displayValue = remember { mutableStateOf("") }
-        if (openDialog.value) AlertDialog(displayValue.value, openDialog)
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.padding(start = 15.dp, end = 15.dp)
+        ) {
             Box(contentAlignment = Alignment.Center) {
                 ElevatedButton(
                     content = {
@@ -99,29 +99,39 @@ class MainActivity : ComponentActivity() {
                     modifier = modifier.size(height = 70.dp, width = 250.dp),
                     onClick = {
                         if (uriValue.value != Uri.EMPTY) {
-                            val bitmap = convertUriToBitmap(
-                                contentResolver = context.contentResolver,
-                                uriValue.value
-                            )
-                            val inputImage = InputImage.fromBitmap(bitmap!!, 0)
-                            val recognizer =
-                                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-                            val result = recognizer.process(inputImage)
-                                .addOnSuccessListener { visionText ->
-                                    displayValue.value = visionText.text
-                                    openDialog.value = true
-                                    // Task completed successfully
-                                    // ...
-                                }
-                                .addOnFailureListener { e ->
-                                    // Task failed with an exception
-                                    // ...
-                                }
+                            handleTextRecognition(
+                                context = context,
+                                uriValue = uriValue
+                            ) { result ->
+                                displayValue.value = result
+                                openDialog.value = true
+                            }
                         }
                     }
                 )
             }
         }
+    }
+
+    private fun handleTextRecognition(
+        context: Context,
+        uriValue: MutableState<Uri>,
+        result: (String) -> Unit
+    ) {
+        val bitmap = convertUriToBitmap(
+            contentResolver = context.contentResolver,
+            uriValue.value
+        )
+        val inputImage = InputImage.fromBitmap(bitmap!!, 0)
+        val recognizer =
+            TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        recognizer.process(inputImage)
+            .addOnSuccessListener { visionText ->
+                result(visionText.text)
+            }
+            .addOnFailureListener { e ->
+                result(e.message ?: getString(R.string.galleryImage))
+            }
     }
 
     @Composable
