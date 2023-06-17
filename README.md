@@ -1,4 +1,4 @@
-# SampleAndTestingMachineLearningAndroidTextRecogniseImages
+# Sample And Testing Machine Learning Android Text Recognise Images
 
 ## References
 https://developers.google.com/ml-kit/vision/text-recognition/v2/android  <br />
