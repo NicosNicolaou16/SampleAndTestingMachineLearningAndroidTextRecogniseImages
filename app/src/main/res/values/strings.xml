@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SampleAndTestingMachineLearningAndroidTextRecogniseImages</string>
     <string name="galleryImage">Gallery Image</string>
-    <string name="scan">Scan</string>
+    <string name="scanImageText">Scan image text</string>
     <string name="ok">Ok</string>
     <string name="error">Error</string>
 </resources>

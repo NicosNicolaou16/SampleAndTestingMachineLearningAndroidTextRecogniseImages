@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.mlkit.vision.common.InputImage
@@ -98,10 +99,10 @@ class MainActivity : ComponentActivity() {
                         content = {
                             Text(
                                 text = stringResource(id = R.string.galleryImage),
-                                style = TextStyle(fontSize = 21.sp)
+                                style = TextStyle(fontSize = 21.sp, textAlign = TextAlign.Center)
                             )
                         },
-                        modifier = modifier.size(height = 70.dp, width = 250.dp),
+                        modifier = modifier.size(height = 70.dp, width = 170.dp),
                         onClick = {
                             galleryLauncher.launch(
                                 "image/*"
@@ -114,11 +115,11 @@ class MainActivity : ComponentActivity() {
                     ElevatedButton(
                         content = {
                             Text(
-                                text = stringResource(id = R.string.scan),
-                                style = TextStyle(fontSize = 21.sp)
+                                text = stringResource(id = R.string.scanImageText),
+                                style = TextStyle(fontSize = 21.sp, textAlign = TextAlign.Center)
                             )
                         },
-                        modifier = modifier.size(height = 70.dp, width = 250.dp),
+                        modifier = modifier.size(height = 70.dp, width = 170.dp),
                         onClick = {
                             if (bitmap.value != null) {
                                 handleTextRecognition(
