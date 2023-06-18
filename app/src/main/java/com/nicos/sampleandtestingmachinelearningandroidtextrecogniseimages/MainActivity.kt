@@ -12,10 +12,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,6 +34,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -57,72 +63,85 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainProcess(context: Context, modifier: Modifier = Modifier) {
-        val uriValue = remember { mutableStateOf(Uri.EMPTY) }
+        val bitmap =
+            remember { mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)) }
         val openDialog = remember { mutableStateOf(false) }
         val displayValue = remember { mutableStateOf("") }
         if (openDialog.value) AlertDialog(displayValue.value, openDialog)
         val galleryLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                 if (uri != null) {
-                    uriValue.value = uri
+                    bitmap.value = convertUriToBitmap(
+                        contentResolver = context.contentResolver,
+                        uri = uri
+                    )
                 }
             }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.padding(start = 15.dp, end = 15.dp)
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                ElevatedButton(
-                    content = {
-                        Text(
-                            text = stringResource(id = R.string.galleryImage),
-                            style = TextStyle(fontSize = 21.sp)
-                        )
-                    },
-                    modifier = modifier.size(height = 70.dp, width = 250.dp),
-                    onClick = {
-                        galleryLauncher.launch(
-                            "image/*"
-                        )
-                    }
+            Box(modifier = modifier.height(200.dp)) {
+                Image(
+                    bitmap = bitmap.value.asImageBitmap(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
                 )
             }
-            Spacer(Modifier.width(15.dp))
-            Box(contentAlignment = Alignment.Center) {
-                ElevatedButton(
-                    content = {
-                        Text(
-                            text = stringResource(id = R.string.scan),
-                            style = TextStyle(fontSize = 21.sp)
-                        )
-                    },
-                    modifier = modifier.size(height = 70.dp, width = 250.dp),
-                    onClick = {
-                        if (uriValue.value != Uri.EMPTY) {
-                            handleTextRecognition(
-                                context = context,
-                                uriValue = uriValue
-                            ) { result ->
-                                displayValue.value = result
-                                openDialog.value = true
+            Spacer(Modifier.height(15.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier.padding(start = 15.dp, end = 15.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    ElevatedButton(
+                        content = {
+                            Text(
+                                text = stringResource(id = R.string.galleryImage),
+                                style = TextStyle(fontSize = 21.sp)
+                            )
+                        },
+                        modifier = modifier.size(height = 70.dp, width = 250.dp),
+                        onClick = {
+                            galleryLauncher.launch(
+                                "image/*"
+                            )
+                        }
+                    )
+                }
+                Spacer(Modifier.width(15.dp))
+                Box(contentAlignment = Alignment.Center) {
+                    ElevatedButton(
+                        content = {
+                            Text(
+                                text = stringResource(id = R.string.scan),
+                                style = TextStyle(fontSize = 21.sp)
+                            )
+                        },
+                        modifier = modifier.size(height = 70.dp, width = 250.dp),
+                        onClick = {
+                            if (bitmap.value != null) {
+                                handleTextRecognition(
+                                    bitmap = bitmap.value
+                                ) { result ->
+                                    if (result.isNotEmpty()) {
+                                        displayValue.value = result
+                                        openDialog.value = true
+                                    }
+                                }
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
 
     private fun handleTextRecognition(
-        context: Context,
-        uriValue: MutableState<Uri>,
+        bitmap: Bitmap,
         result: (String) -> Unit
     ) {
-        val bitmap = convertUriToBitmap(
-            contentResolver = context.contentResolver,
-            uriValue.value
-        )
-        val inputImage = InputImage.fromBitmap(bitmap!!, 0)
+        val inputImage = InputImage.fromBitmap(bitmap, 0)
         val recognizer =
             TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         recognizer.process(inputImage)
