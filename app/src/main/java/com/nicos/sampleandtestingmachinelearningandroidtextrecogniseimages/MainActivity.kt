@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                     bitmap.value = convertUriToBitmap(
                         contentResolver = context.contentResolver,
                         uri = uri
-                    )
+                    ) ?: Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
                 }
             }
         Column(
