@@ -53,7 +53,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.fragment:fragment-ktx:1.8.2'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.0.0')
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.0.10')
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.4'
     implementation 'androidx.activity:activity-compose:1.9.1'
     implementation platform('androidx.compose:compose-bom:2024.06.00')
@@ -69,5 +69,5 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     //ML kit Text Recognise Images
-    implementation 'com.google.mlkit:text-recognition:16.0.0'
+    implementation 'com.google.mlkit:text-recognition:16.0.1'
 }
