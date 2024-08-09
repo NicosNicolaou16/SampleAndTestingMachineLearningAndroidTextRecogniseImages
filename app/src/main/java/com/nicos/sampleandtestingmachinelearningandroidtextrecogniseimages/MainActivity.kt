@@ -121,14 +121,12 @@ class MainActivity : ComponentActivity() {
                         },
                         modifier = modifier.size(height = 70.dp, width = 170.dp),
                         onClick = {
-                            if (bitmap.value != null) {
-                                handleTextRecognition(
-                                    bitmap = bitmap.value
-                                ) { result ->
-                                    if (result.isNotEmpty()) {
-                                        displayValue.value = result
-                                        openDialog.value = true
-                                    }
+                            handleTextRecognition(
+                                bitmap = bitmap.value
+                            ) { result ->
+                                if (result.isNotEmpty()) {
+                                    displayValue.value = result
+                                    openDialog.value = true
                                 }
                             }
                         }
