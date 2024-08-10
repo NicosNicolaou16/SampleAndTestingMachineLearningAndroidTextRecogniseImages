@@ -193,5 +193,4 @@ class MainActivity : ComponentActivity() {
             source?.let { ImageDecoder.decodeBitmap(it) }
         }
     }
-
 }
