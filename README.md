@@ -13,7 +13,7 @@ https://medium.com/@nicosnicolaou/android-machine-learning-image-bitmap-text-rec
 https://developers.google.com/ml-kit/vision/text-recognition/v2/android  <br />
 https://www.howtodoandroid.com/pick-image-from-gallery-jetpack-compose/  <br />
 
-Target SDK version: 34 <br />
-Minimum SDK version: 27 <br />
+Target SDK version: 35 <br />
+Minimum SDK version: 28 <br />
 Kotlin version: 2.0.21 <br />
-Gradle version: 8.7.0 <br />
+Gradle version: 8.7.1 <br />
