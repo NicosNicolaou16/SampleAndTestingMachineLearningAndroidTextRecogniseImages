@@ -6,7 +6,8 @@ The project is implemented with Jetpack Compose.
 
 ## Check my article
 
-https://medium.com/@nicosnicolaou/android-machine-learning-image-bitmap-text-recognize-31659d5a39d4  <br />
+> [!IMPORTANT]  
+> Check my article for the setup :point_right: [Android Machine Learning Image (Bitmap) Text Recognize - Medium](https://medium.com/@nicosnicolaou/android-machine-learning-image-bitmap-text-recognize-31659d5a39d4) :point_left: <br />
 
 # References/Tutorials Follow
 
