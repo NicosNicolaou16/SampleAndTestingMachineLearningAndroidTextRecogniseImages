@@ -45,6 +45,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.nicos.sampleandtestingmachinelearningandroidtextrecogniseimages.ui.theme.SampleAndTestingMachineLearningAndroidTextRecogniseImagesTheme
+import androidx.core.graphics.createBitmap
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainProcess(context: Context, modifier: Modifier = Modifier) {
         val bitmap =
-            remember { mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)) }
+            remember { mutableStateOf(createBitmap(100, 100)) }
         val openDialog = remember { mutableStateOf(false) }
         val displayValue = remember { mutableStateOf("") }
         if (openDialog.value) AlertDialog(displayValue.value, openDialog)
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     bitmap.value = convertUriToBitmap(
                         contentResolver = context.contentResolver,
                         uri = uri
-                    ) ?: Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+                    ) ?: createBitmap(100, 100)
                 }
             }
         Column(
@@ -185,12 +186,8 @@ class MainActivity : ComponentActivity() {
         contentResolver: ContentResolver,
         uri: Uri?
     ): Bitmap? {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            MediaStore.Images.Media.getBitmap(contentResolver, uri)
-        } else {
-            val source: ImageDecoder.Source? =
-                uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let { ImageDecoder.decodeBitmap(it) }
-        }
+        val source: ImageDecoder.Source? =
+            uri?.let { ImageDecoder.createSource(contentResolver, it) }
+        return source?.let { ImageDecoder.decodeBitmap(it) }
     }
 }
