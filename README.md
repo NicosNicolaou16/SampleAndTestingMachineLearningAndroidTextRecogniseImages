@@ -9,10 +9,10 @@ is implemented using Jetpack Compose.
 
 # Versioning
 
-Target SDK version: 35 <br />
-Minimum SDK version: 28 <br />
-Kotlin version: 2.1.10 <br />
-Gradle version: 8.9.0 <br />
+Target SDK version: 36 <br />
+Minimum SDK version: 29 <br />
+Kotlin version: 2.2.20 <br />
+Gradle version: 8.13.0 <br />
 
 # References/Tutorials Follow
 
