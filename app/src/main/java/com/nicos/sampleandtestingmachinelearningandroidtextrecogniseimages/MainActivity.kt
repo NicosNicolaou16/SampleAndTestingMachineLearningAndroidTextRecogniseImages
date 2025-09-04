@@ -5,9 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -41,11 +39,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.createBitmap
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.nicos.sampleandtestingmachinelearningandroidtextrecogniseimages.ui.theme.SampleAndTestingMachineLearningAndroidTextRecogniseImagesTheme
-import androidx.core.graphics.createBitmap
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
