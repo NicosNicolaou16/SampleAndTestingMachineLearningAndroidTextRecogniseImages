@@ -5,9 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -41,6 +39,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.createBitmap
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -65,7 +64,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainProcess(context: Context, modifier: Modifier = Modifier) {
         val bitmap =
-            remember { mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)) }
+            remember { mutableStateOf(createBitmap(100, 100)) }
         val openDialog = remember { mutableStateOf(false) }
         val displayValue = remember { mutableStateOf("") }
         if (openDialog.value) AlertDialog(displayValue.value, openDialog)
@@ -75,7 +74,7 @@ class MainActivity : ComponentActivity() {
                     bitmap.value = convertUriToBitmap(
                         contentResolver = context.contentResolver,
                         uri = uri
-                    ) ?: Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+                    ) ?: createBitmap(100, 100)
                 }
             }
         Column(
@@ -185,12 +184,8 @@ class MainActivity : ComponentActivity() {
         contentResolver: ContentResolver,
         uri: Uri?
     ): Bitmap? {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            MediaStore.Images.Media.getBitmap(contentResolver, uri)
-        } else {
-            val source: ImageDecoder.Source? =
-                uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let { ImageDecoder.decodeBitmap(it) }
-        }
+        val source: ImageDecoder.Source? =
+            uri?.let { ImageDecoder.createSource(contentResolver, it) }
+        return source?.let { ImageDecoder.decodeBitmap(it) }
     }
 }
