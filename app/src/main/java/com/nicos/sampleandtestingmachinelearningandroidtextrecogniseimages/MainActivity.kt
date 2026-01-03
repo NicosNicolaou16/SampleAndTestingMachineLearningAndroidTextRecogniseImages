@@ -1,7 +1,6 @@
 package com.nicos.sampleandtestingmachinelearningandroidtextrecogniseimages
 
 import android.content.ContentResolver
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -34,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -55,14 +55,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainProcess(context = this)
+                    MainProcess()
                 }
             }
         }
     }
 
     @Composable
-    fun MainProcess(context: Context, modifier: Modifier = Modifier) {
+    fun MainProcess(modifier: Modifier = Modifier) {
+        val context = LocalContext.current
         val bitmap =
             remember { mutableStateOf(createBitmap(100, 100)) }
         val openDialog = remember { mutableStateOf(false) }
