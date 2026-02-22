@@ -34,7 +34,7 @@ A sample Android project demonstrating how to use **Google's ML Kit** for text r
 
 *   **Target SDK:** **36**
 *   **Minimum SDK:** **29**
-*   **Kotlin Version:** **2.3.0**
+*   **Kotlin Version:** **2.3.10**
 *   **Gradle Version:** **8.13.2**
 
 ## 📚 References & Tutorials
