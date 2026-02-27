@@ -46,7 +46,7 @@ A sample Android project demonstrating how to use **Google's ML Kit** for text r
 
 If you enjoy this project, please give it a star!
 Check out all the stargazers
-here: [Stargazers on GitHub](https://github.com/NicosNicolaou16/SampleAndTestingMachineLearningAndroidCodeScanner/stargazers)
+here: [Stargazers on GitHub](https://github.com/NicosNicolaou16/SampleAndTestingMachineLearningAndroidTextRecogniseImages/stargazers)
 
 ## 🙏 Support & Contributions
 
