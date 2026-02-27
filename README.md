@@ -41,3 +41,13 @@ A sample Android project demonstrating how to use **Google's ML Kit** for text r
 
 *   **Google ML Kit Documentation:** [Text Recognition for Android (v2)](https://developers.google.com/ml-kit/vision/text-recognition/v2/android)
 *   **Image Picking in Compose:** [How To Pick an Image From Gallery in Jetpack Compose](https://www.howtodoandroid.com/pick-image-from-gallery-jetpack-compose/)
+
+## ⭐ Stargazers
+
+If you enjoy this project, please give it a star!
+Check out all the stargazers
+here: [Stargazers on GitHub](https://github.com/NicosNicolaou16/SampleAndTestingMachineLearningAndroidTextRecogniseImages/stargazers)
+
+## 🙏 Support & Contributions
+
+This project is actively maintained. Feedback, bug reports, and feature requests are welcome! Please feel free to **open an issue** or submit a **pull request**.
